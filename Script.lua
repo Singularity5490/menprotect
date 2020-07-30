@@ -1,0 +1,1 @@
+print("We do not believe in allah.");
