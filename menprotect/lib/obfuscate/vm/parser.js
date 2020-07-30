@@ -93,8 +93,8 @@ module.exports = function(data) {
                         Instructions[i1][i2] = gType() -- Add to register
                     end
 
-                    Instructions[i1].O_ENUM = gType() -- Add Enum
                     Instructions[i1].O_VALUE = gType() -- Add Value
+                    Instructions[i1].O_ENUM = gType() -- Add Enum
                 end
             end
 

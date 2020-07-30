@@ -44,6 +44,12 @@ function gBit(Bit, Start, End) {
 }
 
 module.exports = function deserialize(bytecode, keys) {
+
+    let shuffle = []
+    for (let i = 0; i <= 37; i++) {
+        shuffle.push(Math.floor(Math.random() * 255))
+    }
+
     let instructions = {}
 
     let Pos = 0
@@ -144,8 +150,6 @@ module.exports = function deserialize(bytecode, keys) {
             let Mode = Opmode[Opco]
 
             let Inst = {
-                mopcode: Math.floor(Math.random() * 510) - 255,
-                Enum: Opco,
                 Value: Data,
                 [1]: gBit(Data, 7, 14),
             }
@@ -215,9 +219,12 @@ module.exports = function deserialize(bytecode, keys) {
                 }
             }
 
+            let REAL_OPCODE = Opco
+            let RANDOM_OPCODE = shuffle[REAL_OPCODE]
+
+            instructions[REAL_OPCODE] = RANDOM_OPCODE // [OPCODE] = RANDOM OPCODE
+            Inst.Enum = RANDOM_OPCODE
             Instr[Idx] = Inst
-            instructions[Inst.Enum] = Inst.mopcode // [OPCODE] = RANDOM OPCODE
-            //Instr[Idx].Enum = instructions[Inst.Enum] // why r u overriding it
         }
 
         let n2 = gInt()
@@ -304,8 +311,8 @@ module.exports = function deserialize(bytecode, keys) {
     }
 
     { // Closure opcodes
-        // instructions[0] = Math.floor(Math.random() * 510) - 255
-        // instructions[4] = Math.floor(Math.random() * 510) - 255
+        instructions[0] = Math.floor(Math.random() * 510) - 255
+        instructions[4] = Math.floor(Math.random() * 510) - 255
     }
 
     return {

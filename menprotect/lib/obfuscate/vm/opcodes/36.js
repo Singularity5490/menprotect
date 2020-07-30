@@ -7,10 +7,6 @@ module.exports = function(data) {
 	let keys = data[0]
 	let instructions = data[1]
 
-	// print()
-	// print(instructions[0])
-	// print(instructions[4])
-
 	return `
 	local NewProto	= Proto[Inst[2] + 1];
 	local Stk	= Stack;

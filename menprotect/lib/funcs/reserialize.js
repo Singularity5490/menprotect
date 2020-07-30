@@ -61,13 +61,11 @@ module.exports = function(data, keys) {
 
             for (let i = 1; i <= c_instrutions.length; i++) { // For each register, add data to stream
                 let c_register = Object.keys(chunk.Instr[i]) // Register index
-                add_byte(c_register.length - 1) // Amount of values in register (removes enum too)
+                add_byte(c_register.length)
 
                 c_register.forEach(function(index) {
                     let value = chunk.Instr[i][index] // Register value
-                    if (index !== "Enum") {
-                        add_type(value) // Add value to stream
-                    }
+                    add_type(value) // Add value to stream
                 })
             }
         }

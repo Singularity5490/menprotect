@@ -36,11 +36,16 @@ module.exports = function(data, keys) {
                 let first = true
                 keyword = 'if'
 
+                // print(proto.Instr)
+                // print(instructions[30])
+
                 let n = 0
                 Object.keys(instructions).forEach(function(real_opcode) {
                     n++
 
                     let opcode = instructions[real_opcode]
+
+                    // if (real_opcode == 30) print(opcode)
 
                     add(`${keyword} Enum == ${opcode} then\n`)
                     add_opcode(real_opcode, keys, instructions)
@@ -92,6 +97,6 @@ module.exports = function(data, keys) {
     return `--[[
     This script was obfuscated using menprotect v1.0.0 by elerium:tm:
 --]]
-return(function()${(build)};end)()("${funcs._2C(funcs.encrypt(bytecode, keys.byte))}");
+return(function()${funcs.minify(build)};end)()("${funcs._2C(funcs.encrypt(bytecode, keys.byte))}");
 `
 }
