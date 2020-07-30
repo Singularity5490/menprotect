@@ -104,14 +104,6 @@ module.exports = function(data, keys) {
     
     add_payload(['__index', '__newindex']) // General VM strings
 
-    { // Add list of opcodes
-        let opcodes = []
-        Object.keys(instructions).forEach(function(opcode) {
-            opcodes.push(opcode)
-        })
-        add_payload(opcodes)
-    }
-
     add_chunk(proto) // Decode chunk(s)
 
     return stream

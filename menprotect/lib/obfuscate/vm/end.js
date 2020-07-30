@@ -21,6 +21,8 @@ module.exports = function() {
 		end;
 	
 		return;
+	else
+		print(B)
 	end;
 	end;
 	end;

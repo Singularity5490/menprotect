@@ -87,9 +87,9 @@ module.exports = function(options) {
 
     state('Compiling function')
     funcs.compile(script).then(function(bytecode) { // Compile script
-        
+
         state('Deserializing')
-        let deserialized = funcs.deserialize(bytecode, keys) // Deserialize bytecode into a proto structure
+        let deserialized = funcs.deserialize(bytecode) // Deserialize bytecode into a proto structure
 
         state('Generating stream')
         let stream = funcs.reserialize(deserialized, keys) // Convert proto structure into a bytecode stream

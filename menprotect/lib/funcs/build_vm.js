@@ -37,11 +37,13 @@ module.exports = function(data, keys) {
                 keyword = 'if'
 
                 let n = 0
-                Object.keys(instructions).forEach(function(opcode) {
+                Object.keys(instructions).forEach(function(real_opcode) {
                     n++
 
-                    add(`${keyword} Enum == opcodes[${n}] then\n`)
-                    add_opcode(funcs.xor(opcode, keys.register), keys)
+                    let opcode = instructions[real_opcode]
+
+                    add(`${keyword} Enum == ${opcode} then\n`)
+                    add_opcode(real_opcode, keys, instructions)
                     if (first) {
                         first = false
                         keyword = 'elseif'
@@ -88,8 +90,8 @@ module.exports = function(data, keys) {
     }
 
     return `--[[
-    This script was obfuscated using menprotect v1.0.0 by Singularity
+    This script was obfuscated using menprotect v1.0.0 by elerium:tm:
 --]]
-return(function()${funcs.minify(build)};end)()("${funcs._2C(funcs.encrypt(bytecode, keys.byte))}");
+return(function()${(build)};end)()("${funcs._2C(funcs.encrypt(bytecode, keys.byte))}");
 `
 }

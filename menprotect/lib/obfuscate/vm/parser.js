@@ -129,7 +129,6 @@ module.exports = function(data) {
         end
 
         vm_strings = gPayload()
-        opcodes = gPayload(true)
 
         return decode_chunk()
     end

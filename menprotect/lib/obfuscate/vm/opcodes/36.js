@@ -1,8 +1,15 @@
+const print = console.log
+
 const functions = require('../../../funcs')
 const funcs = new functions()
 
 module.exports = function(data) {
 	let keys = data[0]
+	let instructions = data[1]
+
+	// print()
+	// print(instructions[0])
+	// print(instructions[4])
 
 	return `
 	local NewProto	= Proto[Inst[2] + 1];
@@ -30,9 +37,9 @@ module.exports = function(data) {
 		for Idx = 1, NewProto.O_UPVALS do
 			local Mvm	= Instr[InstrPoint];
 	
-			if (Mvm.O_ENUM == ${funcs.xor(0, keys.register)}) then -- MOVE
+			if (Mvm.O_ENUM == ${instructions[0]}) then -- MOVE
 				Indexes[Idx - 1] = {Stk, Mvm[2]};
-			elseif (Mvm.O_ENUM == ${funcs.xor(4, keys.register)}) then -- GETUPVAL
+			elseif (Mvm.O_ENUM == ${instructions[4]}) then -- GETUPVAL
 				Indexes[Idx - 1] = {Upvalues, Mvm[2]};
 			end;
 	

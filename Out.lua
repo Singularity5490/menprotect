@@ -1,4 +1,353 @@
 --[[
-    This script was obfuscated using menprotect v1.0.0 by Singularity
+    This script was obfuscated using menprotect v1.0.0 by elerium:tm:
 --]]
-return(function()local a;local b;local c;local d;local e=function(...)return...end;local f=tonumber;local g=tostring;local h=setmetatable;local i=true;local j=g(f)local k=select;local l=j.byte;local m=j.char;local n=j.sub;local o=table.concat;local p=j.rep;local q=getfenv()local r=pcall;local s=unpack;local t=j.gsub;local function u(v,w)v[#v+1]=w end;local function x(y)return t(y,p(m(0x2E),2),function(z)return m(f(z,0x10))end)end;local function A(B,C)local D,E=1,0;while B>0 and C>0 do local F,G=B%2,C%2;if F~=G then E=E+D end;B,C,D=(B-F)/2,(C-G)/2,D*2 end;if B<C then B=C end;while B>0 do local F=B%2;if F>0 then E=E+D end;B,D=(B-F)/2,D*2 end;return E end;local function H(I,J)local K={}local L=0;for M=1,#I do u(K,m(A(l(I,M,M),J)))end;return o(K)end;local function N(...)return k(m(0x23),...),{...}end;local function O(P)P=H(P,52)local Q,R;Q={g,f,function(S)R={false,true}return R[S+1]end}local T=1;local function U(V)T=T+(V or 1)end;local function W()local X=l(P,T,T)return X end;local function Y()local X=W()U()return X end;local function Z(_)_=_ or 1;local _0={}for M=1,_ do _0[M]=Y()end;return f(o(_0))end;local function _1(_)local _0={}for M=1,_ do _0[M]=m(Y())end;return o(_0)end;local function _2()local _3=Y()if _3==0 then return end;local _4=1;if _3<3 then _4=Y()end;local _5=false;if _3==2 and W()==0 and _4~=1 then _5=true end;local _6=_3>2 and Y or _3>1 and Z or _1;local _7=Q[_3](_6(_4))if _5 then return-_7 end;return _7 end;_1(11)local _8=Y()local function _9()local _a={}local _b={}local _c={}local _d=Y()local _e=Y()do for _f=1,_2()do _a[_f]={}for _g=1,Y()-2 do _a[_f][_g]=_2()end;_a[_f].u=_2()_a[_f].h=_2()end end;do for M=1,_2()do _b[M]=_2()end end;do for M=1,_2()do _c[M]=_9()end end;return{g=_a,q=_b,c=_c,d=_d,G=_e}end;local function _h(_i)local _j=_i and f or e;local _k={}for M=1,Y()do _k[M]=_j(H(_2(),_8))end;return _k end;a=_h()b=_h(true)return _9()end;local function _l(_m,_n)local _o=_m.g;local _p=_m.q;local _q=_m.c;return function(...)local _r,_s=1,-1;local _t,_u={},k(m(0x23),...)-1;local _v={}local _w={}local _x=h({},{[c]=_v,[d]=function(_y,_z,_A)if _z>_s then _s=_z end;_v[_z]=_A end})local function _B()local _C,_D;while i do _C=_o[_r]_D=_C.u;_r=_r+1;if _D==b[1]then _x[_C[1]]=_p[_C[2]+1]elseif _D==b[2]then _x[_C[1]]=q[_p[_C[2]+1]]elseif _D==b[3]then local _E=_C[1]local _F=_C[2]local _G=_C[3]local _H=_x;local _d,_I;local _J,_K;_d={}if _F~=1 then if _F~=0 then _J=_E+_F-1 else _J=_s end;_K=0;for _L=_E+1,_J do _K=_K+1;_d[_K]=_H[_L]end;_J,_I=N(_H[_E](s(_d,1,_J-_E)))else _J,_I=N(_H[_E]())end;_s=_E-1;if _G~=1 then if _G~=0 then _J=_E+_G-2 else _J=_J+_E-1 end;_K=0;for _L=_E,_J do _K=_K+1;_H[_L]=_I[_K]end end elseif _D==b[4]then local _E=_C[1]local _F=_C[2]local _H=_x;local _K,_M;local _J;if _F==1 then return elseif _F==0 then _J=_s else _J=_E+_F-2 end;_M={}_K=0;for _L=_E,_J do _K=_K+1;_M[_K]=_H[_L]end;return _M,_K elseif _D==b[5]then local _N=_q[_C[2]+1]local _H=_x;local _O;local _P;if _N.G~=0 then _O={}_P=h({},{[c]=function(_y,_z)local _Q=_O[_z]return _Q[1][_Q[2]]end,[d]=function(_y,_z,_A)local _Q=_O[_z]_Q[1][_Q[2]]=_A end})for _L=1,_N.G do local _R=_o[_r]if _R.u==136 then _O[_L-1]={_H,_R[2]}elseif _R.u==140 then _O[_L-1]={_n,_R[2]}end;_r=_r+1 end;_w[#_w+1]=_O end;_H[_C[1]]=_l(_N,_P)elseif _D==b[6]then local _E=_C[1]local _F=_C[2]local _H,_S=_x,_t;_s=_E-1;for _L=_E,_E+(_F>0 and _F-1 or _u)do _H[_L]=_S[_L-_E]end end end end;local _d={...}for _L=0,_u do if _L>=_m.d then _t[_L-_m.d]=_d[_L+1]else _x[_L]=_d[_L+1]end end;local _E,_F,_G=r(_B)if _E then if _F and _G>0 then return s(_F,1,_G)end;return end end end;return function(P)local _T=O(P)c=a[1]d=a[2]_l(_T)()end;end)()("\89\81\90\68\70\91\64\81\87\64\72\63\54\53\51\96\96\86\81\91\90\71\53\62\96\96\81\90\72\86\81\91\90\71\50\53\55\14\12\8\53\55\14\11\14\53\55\14\11\7\53\55\14\10\15\53\55\14\8\13\53\55\14\8\12\52\52\54\53\49\48\54\53\52\54\53\52\54\55\53\51\54\54\54\55\50\49\54\53\53\54\53\52\55\52\54\55\53\48\53\54\54\50\61\49\54\53\54\54\53\53\55\52\54\55\53\55\51\54\49\53\50\49\53\55\49\54\53\53\54\53\54\54\53\53\54\55\53\48\60\54\60\53\50\51\61\55\50\61\54\49\54\53\52\54\53\53\54\53\52\54\55\53\49\52\54\51\60\55\60\60\50\55\60\54\53\54\53\49\68\70\93\90\64\53\47\99\81\20\80\91\20\90\91\64\20\86\81\88\93\81\66\81\20\93\90\20\85\88\88\85\92\26\54\53\53\52\52\54\53\55\49\54\53\53\54\53\54\54\53\52\54\55\53\51\55\54\60\53\50\51\51\51\55\53\51\49\54\53\53\54\53\54\54\53\52\54\55\53\49\52\54\60\53\50\51\51\51\55\53\52\49\54\53\52\54\53\53\54\53\52\54\55\53\49\52\54\51\60\55\60\60\50\55\60\54\53\52\54\53\52");
+return(function()
+    local vm_strings
+    local opcodes
+    local ___index
+    local ___newindex
+    
+    local empty_func = function(...)return(...)end
+    
+    local _tonumber = tonumber
+    local _tostring = tostring
+    local _setmetatable = setmetatable
+    local _true = true
+    
+    local String = _tostring(_tonumber)
+    
+    local Select = select
+    local Byte = String.byte
+    local Char = String.char
+    local Sub = String.sub
+    local Concat = table.concat
+    local Rep = String.rep
+    local Env = getfenv()
+    local Pcall = pcall
+    local Unpack = unpack
+    local Gsub = String.gsub
+    
+    local function push(t, v)
+        t[#t + 1] = v
+    end
+    
+    local function fromhex(str)
+        return (Gsub(str, Rep(Char(0x2E), 2), function (cc)
+            return Char(_tonumber(cc, 0x10))
+        end))
+    end
+    
+    local function xor(a, b)
+        local p, c = 1, 0
+        while a > 0 and b > 0 do
+            local ra, rb = a % 2, b % 2
+            if ra ~= rb then
+                c = c + p
+            end
+            a, b, p = (a - ra) / 2, (b - rb) / 2, p * 2
+        end
+    
+        if a < b then
+            a = b
+        end
+    
+        while a > 0 do
+            local ra = a % 2
+    
+            if ra > 0 then
+                c = c + p
+            end
+    
+            a, p = (a - ra) / 2, p * 2
+        end
+    
+        return c
+    end
+    
+    local function encrypt(s, k)
+        local cs = {}
+        local pos = 0
+        for i = 1, #s do
+            push(cs, Char(xor(Byte(s, i, i), k)))
+        end
+        return Concat(cs)
+    end
+    
+    local function _Returns(...)
+        return Select(Char(0x23), ...), {...};
+    end;
+    
+    
+    local function parse(bytecode)
+        bytecode = encrypt(bytecode, 38)
+        
+        local type_index, bit_idx
+        type_index = {
+            _tostring,
+            _tonumber,
+            function(bit)
+                bit_idx = {
+                    false,
+                    true,
+                }
+                return bit_idx[bit + 1]
+            end,
+        }
+
+        local Pos = 1
+        local function Next(x)
+            Pos = Pos + (x or 1)
+        end
+
+        local function silent_gBit()
+            local Bit = Byte(bytecode, Pos, Pos)
+            return Bit
+        end
+
+        local function gBit()
+            local Bit = silent_gBit()
+            Next()
+            return Bit
+        end
+
+        local function gBits(n)
+            n = n or 1
+            local Bits = {}
+            for i = 1, n do
+                Bits[i] = gBit()
+            end
+            return _tonumber(Concat(Bits))
+        end
+
+        local function gString(n)
+            local Bits = {}
+            for i = 1, n do
+                Bits[i] = Char(gBit())
+            end
+            return Concat(Bits)
+        end
+
+        local function gType()
+            local Type = gBit()
+            if Type == 0 then return end
+            local Length = 1
+            if Type < 3 then -- If not boolean
+                Length = gBit()
+            end
+
+            local isNegative = false
+            if (Type == 2 and silent_gBit() == 0) and (Length ~= 1) then
+                isNegative = true
+            end
+
+            local Func = (Type > 2 and gBit) or (Type > 1 and gBits) or gString
+            local Data = type_index[Type](Func(Length))
+            if isNegative then
+                return -Data
+            end
+            return Data
+        end
+
+        gString(11)
+        local vmkey = gBit()
+
+        local function decode_chunk()
+            local Instructions = {}
+            local Constants = {}
+            local Protos = {}
+
+            local Args = gBit()
+            local Upvals = gBit()
+
+            do -- Load instructions
+                for i1 = 1, gType() do -- Amount of instructions
+                    Instructions[i1] = {} -- Register
+                    for i2 = 1, gBit() - 2 do -- For each value in register (except Enum and Value, hence -2)
+                        Instructions[i1][i2] = gType() -- Add to register
+                    end
+
+                    Instructions[i1].o = gType() -- Add Enum
+                    Instructions[i1].v = gType() -- Add Value
+                end
+            end
+
+            do -- Load constants
+                for i = 1, gType() do -- Amount of constants
+                    Constants[i] = gType()
+                end
+            end
+
+            do -- Load protos
+                for i = 1, gType() do -- Amount of protos
+                    Protos[i] = decode_chunk()
+                end
+            end
+
+            return {
+                A = Instructions,
+                q = Constants,
+                M = Protos,
+                m = Args,
+                x = Upvals,
+            }
+        end
+
+        local function gPayload(isNumber)
+            local _func = isNumber and _tonumber or empty_func
+            local queue = {}
+            for i = 1, gBit() do
+                queue[i] = _func(encrypt(gType(), vmkey))
+            end
+            return queue
+        end
+
+        vm_strings = gPayload()
+
+        return decode_chunk()
+    end
+
+    
+	local function Wrap(Chunk, Upvalues)
+		local Instr	= Chunk.A;
+		local Const	= Chunk.q;
+		local Proto	= Chunk.M;
+	
+		return function(...)
+			local InstrPoint, Top	= 1, -1;
+			local Vararg, Varargsz	= {}, Select(Char(0x23), ...) - 1;
+	
+			local GStack	= {};
+			local Lupvals	= {};
+			local Stack		= _setmetatable({}, {
+				[___index]		= GStack;
+				[___newindex]	= function(_, Key, Value)
+					if (Key > Top) then
+						Top	= Key;
+					end;
+	
+					GStack[Key]	= Value;
+				end;
+			});
+	
+			local function Loop()
+				local Inst, Enum;
+	
+				while _true do
+					Inst		= Instr[InstrPoint];
+					Enum		= Inst.o;
+					InstrPoint	= InstrPoint + 1;
+	
+	if Enum == 165 then
+
+	local A	= Inst[1];
+	local B	= Inst[2];
+	local Stk	= Stack;
+	local Edx, Output;
+	local Limit;
+	
+	if (B == 1) then
+		return;
+	elseif (B == 0) then
+		Limit	= Top;
+	else
+		Limit	= A + B - 2;
+	end;
+	
+	Output = {};
+	Edx = 0;
+	
+	for Idx = A, Limit do
+		Edx	= Edx + 1;
+	
+		Output[Edx] = Stk[Idx];
+	end;
+	
+	return Output, Edx;
+	elseif Enum == 26 then
+
+	local NewProto	= Proto[Inst[2] + 1];
+	local Stk	= Stack;
+	
+	local Indexes;
+	local NewUvals;
+	
+	if (NewProto.x ~= 0) then
+		Indexes		= {};
+		NewUvals	= _setmetatable({}, {
+				[___index] = function(_, Key)
+					local Val	= Indexes[Key];
+	
+					return Val[1][Val[2]];
+				end,
+				[___newindex] = function(_, Key, Value)
+					local Val	= Indexes[Key];
+	
+					Val[1][Val[2]]	= Value;
+				end;
+			}
+		);
+	
+		for Idx = 1, NewProto.x do
+			local Mvm	= Instr[InstrPoint];
+	
+			if (Mvm.o == undefined) then -- MOVE
+				Indexes[Idx - 1] = {Stk, Mvm[2]};
+			elseif (Mvm.o == undefined) then -- GETUPVAL
+				Indexes[Idx - 1] = {Upvalues, Mvm[2]};
+			end;
+	
+			InstrPoint	= InstrPoint + 1;
+		end;
+	
+		Lupvals[#Lupvals + 1]	= Indexes;
+	end;
+	
+	Stk[Inst[1]]			= Wrap(NewProto, NewUvals);
+	elseif Enum == 118 then
+
+	local A	= Inst[1];
+	local B	= Inst[2];
+	local Stk, Vars	= Stack, Vararg;
+	
+	Top = A - 1;
+	
+	for Idx = A, A + (B > 0 and B - 1 or Varargsz) do
+		Stk[Idx]	= Vars[Idx - A];
+	end;
+	
+end
+	end;
+	end;
+	
+	local Args	= {...};
+	
+	for Idx = 0, Varargsz do
+		if (Idx >= Chunk.m) then
+			Vararg[Idx - Chunk.m] = Args[Idx + 1];
+		else
+			Stack[Idx] = Args[Idx + 1];
+		end;
+	end;
+	
+	local A, B, C	= Pcall(Loop);
+	
+	if A then
+		if B and (C > 0) then
+			return Unpack(B, 1, C);
+		end;
+	
+		return;
+	else
+		print(B)
+	end;
+	end;
+	end;
+	
+	return function(bytecode)
+	local buffer = parse(bytecode)
+	___index = vm_strings[1]
+	___newindex = vm_strings[2]
+	Wrap(buffer)()
+	end
+	
+	;end)()("\75\67\72\86\84\73\82\67\69\82\90\13\36\39\33\82\82\100\99\105\104\117\39\44\82\82\99\104\122\100\99\105\104\117\38\38\36\39\36\34\36\39\38\36\39\38\36\36\36\32\36\36\37\32\35\36\39\38\36\39\39\36\39\38\36\34\38\39\37\46\36\33\46\37\46\46\32\37\46\36\39\38\36\39\39\38\38\36\39\37\35\36\39\39\36\39\36\36\39\38\36\37\39\39\46\36\46\39\32\33\33\33\37\39\33\35\36\39\39\36\39\36\36\39\38\36\37\38\35\34\36\46\39\32\33\33\33\37\39\38\35\36\39\38\36\39\39\36\39\38\36\37\39\32\35\36\33\46\37\46\46\32\37\46\36\39\38\36\39\38");

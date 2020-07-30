@@ -1,1 +1,1 @@
-print("We do not believe in allah.");
+do end

@@ -44,8 +44,6 @@ function gBit(Bit, Start, End) {
 }
 
 module.exports = function deserialize(bytecode, keys) {
-    let registerkey = keys.register
-
     let instructions = {}
 
     let Pos = 0
@@ -146,7 +144,7 @@ module.exports = function deserialize(bytecode, keys) {
             let Mode = Opmode[Opco]
 
             let Inst = {
-                Enum: funcs.xor(Opco, registerkey),
+                Enum: Opco,
                 Value: Data,
                 [1]: gBit(Data, 7, 14),
             }
@@ -217,7 +215,8 @@ module.exports = function deserialize(bytecode, keys) {
             }
 
             Instr[Idx] = Inst
-            instructions[Inst.Enum] = true
+            instructions[Inst.Enum] = Math.floor(Math.random() * 510) - 255 // [OPCODE] = RANDOM OPCODE
+            Instr[Idx].Enum = instructions[Inst.Enum]
         }
 
         let n2 = gInt()
@@ -301,6 +300,11 @@ module.exports = function deserialize(bytecode, keys) {
         }
 
         let platform = gString(3)
+    }
+
+    { // Closure opcodes
+        // instructions[0] = Math.floor(Math.random() * 510) - 255
+        // instructions[4] = Math.floor(Math.random() * 510) - 255
     }
 
     return {
