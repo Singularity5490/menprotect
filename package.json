@@ -2,7 +2,7 @@
   "name": "menprotect",
   "version": "1.0.0",
   "description": "Lua 5.1 Obfuscator",
-  "main": "index.js",
+  "main": "cli.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
