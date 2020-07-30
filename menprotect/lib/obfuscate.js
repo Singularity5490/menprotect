@@ -2,7 +2,6 @@ const print = console.log
 const date = new Date()
 
 const functions = require('./funcs')
-const _2C = require('./funcs/_2C')
 const funcs = new functions()
 
 const macros = {}
