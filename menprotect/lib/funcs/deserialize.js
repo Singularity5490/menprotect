@@ -112,7 +112,7 @@ module.exports = function deserialize(bytecode, keys) {
 
         return Str
     }
-    
+    // jesus christ {} is just cancer
     function ChunkDecode() {
         let Instr = {}
         let Const = {}
@@ -144,6 +144,7 @@ module.exports = function deserialize(bytecode, keys) {
             let Mode = Opmode[Opco]
 
             let Inst = {
+                mopcode: Math.floor(Math.random() * 510) - 255,
                 Enum: Opco,
                 Value: Data,
                 [1]: gBit(Data, 7, 14),
@@ -215,8 +216,8 @@ module.exports = function deserialize(bytecode, keys) {
             }
 
             Instr[Idx] = Inst
-            instructions[Inst.Enum] = Math.floor(Math.random() * 510) - 255 // [OPCODE] = RANDOM OPCODE
-            Instr[Idx].Enum = instructions[Inst.Enum]
+            instructions[Inst.Enum] = Inst.mopcode // [OPCODE] = RANDOM OPCODE
+            //Instr[Idx].Enum = instructions[Inst.Enum] // why r u overriding it
         }
 
         let n2 = gInt()

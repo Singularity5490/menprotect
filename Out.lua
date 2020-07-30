@@ -79,7 +79,7 @@ return(function()
     
     
     local function parse(bytecode)
-        bytecode = encrypt(bytecode, 38)
+        bytecode = encrypt(bytecode, 22)
         
         local type_index, bit_idx
         type_index = {
@@ -166,8 +166,8 @@ return(function()
                         Instructions[i1][i2] = gType() -- Add to register
                     end
 
-                    Instructions[i1].o = gType() -- Add Enum
-                    Instructions[i1].v = gType() -- Add Value
+                    Instructions[i1].X = gType() -- Add Enum
+                    Instructions[i1].N = gType() -- Add Value
                 end
             end
 
@@ -184,11 +184,11 @@ return(function()
             end
 
             return {
-                A = Instructions,
-                q = Constants,
-                M = Protos,
-                m = Args,
-                x = Upvals,
+                r = Instructions,
+                L = Constants,
+                P = Protos,
+                O = Args,
+                o = Upvals,
             }
         end
 
@@ -208,9 +208,9 @@ return(function()
 
     
 	local function Wrap(Chunk, Upvalues)
-		local Instr	= Chunk.A;
-		local Const	= Chunk.q;
-		local Proto	= Chunk.M;
+		local Instr	= Chunk.r;
+		local Const	= Chunk.L;
+		local Proto	= Chunk.P;
 	
 		return function(...)
 			local InstrPoint, Top	= 1, -1;
@@ -234,10 +234,63 @@ return(function()
 	
 				while _true do
 					Inst		= Instr[InstrPoint];
-					Enum		= Inst.o;
+					Enum		= Inst.X;
 					InstrPoint	= InstrPoint + 1;
 	
-	if Enum == 165 then
+	if Enum == 3 then
+
+    Stack[Inst[1]]	= Const[Inst[2] + 1];
+    elseif Enum == -61 then
+
+    Stack[Inst[1]]	= Env[Const[Inst[2] + 1]];
+    elseif Enum == -59 then
+local A	= Inst[1];
+	local B	= Inst[2];
+	local C	= Inst[3];
+	local Stk	= Stack;
+	local Args, Results;
+	local Limit, Edx;
+	
+	Args	= {};
+	
+	if (B ~= 1) then
+		if (B ~= 0) then
+			Limit = A + B - 1;
+		else
+			Limit = Top;
+		end;
+	
+		Edx	= 0;
+	
+		for Idx = A + 1, Limit do
+			Edx = Edx + 1;
+	
+			Args[Edx] = Stk[Idx];
+		end;
+	
+		Limit, Results = _Returns(Stk[A](Unpack(Args, 1, Limit - A)));
+	else
+		Limit, Results = _Returns(Stk[A]());
+	end;
+	
+	Top = A - 1;
+	
+	if (C ~= 1) then
+		if (C ~= 0) then
+			Limit = A + C - 2;
+		else
+			Limit = Limit + A - 1;
+		end;
+	
+		Edx	= 0;
+	
+		for Idx = A, Limit do
+			Edx = Edx + 1;
+	
+			Stk[Idx] = Results[Edx];
+		end;
+	end;
+	elseif Enum == -243 then
 
 	local A	= Inst[1];
 	local B	= Inst[2];
@@ -263,7 +316,7 @@ return(function()
 	end;
 	
 	return Output, Edx;
-	elseif Enum == 26 then
+	elseif Enum == -23 then
 
 	local NewProto	= Proto[Inst[2] + 1];
 	local Stk	= Stack;
@@ -271,7 +324,7 @@ return(function()
 	local Indexes;
 	local NewUvals;
 	
-	if (NewProto.x ~= 0) then
+	if (NewProto.o ~= 0) then
 		Indexes		= {};
 		NewUvals	= _setmetatable({}, {
 				[___index] = function(_, Key)
@@ -287,12 +340,12 @@ return(function()
 			}
 		);
 	
-		for Idx = 1, NewProto.x do
+		for Idx = 1, NewProto.o do
 			local Mvm	= Instr[InstrPoint];
 	
-			if (Mvm.o == undefined) then -- MOVE
+			if (Mvm.X == undefined) then -- MOVE
 				Indexes[Idx - 1] = {Stk, Mvm[2]};
-			elseif (Mvm.o == undefined) then -- GETUPVAL
+			elseif (Mvm.X == undefined) then -- GETUPVAL
 				Indexes[Idx - 1] = {Upvalues, Mvm[2]};
 			end;
 	
@@ -303,7 +356,7 @@ return(function()
 	end;
 	
 	Stk[Inst[1]]			= Wrap(NewProto, NewUvals);
-	elseif Enum == 118 then
+	elseif Enum == 3 then
 
 	local A	= Inst[1];
 	local B	= Inst[2];
@@ -322,8 +375,8 @@ end
 	local Args	= {...};
 	
 	for Idx = 0, Varargsz do
-		if (Idx >= Chunk.m) then
-			Vararg[Idx - Chunk.m] = Args[Idx + 1];
+		if (Idx >= Chunk.O) then
+			Vararg[Idx - Chunk.O] = Args[Idx + 1];
 		else
 			Stack[Idx] = Args[Idx + 1];
 		end;
@@ -338,7 +391,7 @@ end
 	
 		return;
 	else
-		print(B)
+		return print(B)
 	end;
 	end;
 	end;
@@ -350,4 +403,4 @@ end
 	Wrap(buffer)()
 	end
 	
-	;end)()("\75\67\72\86\84\73\82\67\69\82\90\13\36\39\33\82\82\100\99\105\104\117\39\44\82\82\99\104\122\100\99\105\104\117\38\38\36\39\36\34\36\39\38\36\39\38\36\36\36\32\36\36\37\32\35\36\39\38\36\39\39\36\39\38\36\34\38\39\37\46\36\33\46\37\46\46\32\37\46\36\39\38\36\39\39\38\38\36\39\37\35\36\39\39\36\39\36\36\39\38\36\37\39\39\46\36\46\39\32\33\33\33\37\39\33\35\36\39\39\36\39\36\36\39\38\36\37\38\35\34\36\46\39\32\33\33\33\37\39\38\35\36\39\38\36\39\39\36\39\38\36\37\39\32\35\36\33\46\37\46\46\32\37\46\36\39\38\36\39\38");
+	;end)()("\123\115\120\102\100\121\98\115\117\98\106\24\20\23\17\71\71\113\118\124\125\96\23\28\71\71\118\125\111\113\118\124\125\96\22\22\20\23\19\18\20\23\22\20\23\22\20\21\22\20\21\20\20\21\16\19\20\23\23\20\23\22\21\22\20\21\22\16\23\20\20\16\31\19\20\23\20\20\23\23\21\22\20\23\21\20\19\23\16\19\23\21\19\20\23\23\20\23\20\20\23\23\20\21\22\19\31\20\30\23\16\17\31\21\16\31\20\19\20\23\22\20\23\23\20\23\22\20\21\22\20\20\20\17\30\21\30\30\16\21\30\20\23\20\23\19\102\100\127\120\98\23\19\87\122\122\119\126\20\23\23\22\22\20\23\21\19\20\23\23\20\23\20\20\23\22\20\23\21\20\30\23\16\17\17\17\21\23\17\19\20\23\23\20\23\20\20\23\22\20\20\22\19\20\30\23\16\17\17\17\21\23\22\19\20\23\22\20\23\23\20\23\22\20\18\22\20\18\21\20\17\30\21\30\30\16\21\30\20\23\22\20\23\22");

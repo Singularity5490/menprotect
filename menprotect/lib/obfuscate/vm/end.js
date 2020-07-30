@@ -22,7 +22,7 @@ module.exports = function() {
 	
 		return;
 	else
-		print(B)
+		return print(B)
 	end;
 	end;
 	end;
