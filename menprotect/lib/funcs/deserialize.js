@@ -45,9 +45,19 @@ function gBit(Bit, Start, End) {
 
 module.exports = function deserialize(bytecode, keys) {
 
+    let used = {}
+    function shuffleOpcode() {
+        let op = Math.floor(Math.random() * 255)
+        if (!used[op]) {
+            used[op] = op
+            return op
+        }
+        return shuffleOpcode()
+    }
+
     let shuffle = []
     for (let i = 0; i <= 37; i++) {
-        shuffle.push(Math.floor(Math.random() * 255))
+        shuffle.push(shuffleOpcode())
     }
 
     let instructions = {}
