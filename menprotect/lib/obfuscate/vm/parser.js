@@ -6,7 +6,7 @@ module.exports = function(data) {
 
     return `
     local function parse(bytecode)
-        bytecode = encrypt(bytecode, ${keys.byte})
+        bytecode = encrypt(fromhex(bytecode), ${keys.byte})
         
         local type_index, bit_idx
         type_index = {
@@ -54,12 +54,16 @@ module.exports = function(data) {
             return Concat(Bits)
         end
 
-        local function gType()
+        local gType
+        function gType()
             local Type = gBit()
             if Type == 0 then return end
+
             local Length = 1
+            local lFunc = Type == 1 and gType or gBit
+
             if Type < 3 then -- If not boolean
-                Length = gBit()
+                Length = lFunc()
             end
 
             local isNegative = false
@@ -75,7 +79,7 @@ module.exports = function(data) {
             return Data
         end
 
-        gString(11)
+        gString(0xB)
         local vmkey = gBit()
 
         local function decode_chunk()

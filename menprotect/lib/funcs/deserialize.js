@@ -43,20 +43,20 @@ function gBit(Bit, Start, End) {
     }
 }
 
-module.exports = function deserialize(bytecode, keys) {
+module.exports = function deserialize(bytecode) {
 
     let used = {}
     function shuffleOpcode() {
         let op = Math.floor(Math.random() * 255)
         if (!used[op]) {
-            used[op] = op
+            used[op] = true
             return op
         }
         return shuffleOpcode()
     }
 
     let shuffle = []
-    for (let i = 0; i <= 37; i++) {
+    for (let i = 0; i <= 37; i++) { // Create the 38 opcodes
         shuffle.push(shuffleOpcode())
     }
 

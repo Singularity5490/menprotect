@@ -35,7 +35,8 @@ module.exports = function(data, keys) {
         function add_type(x) {
             if (typeof(x) == 'string') {
                 add_byte(1) // Code for string
-                add_byte(x.length) // Add length
+                // add_byte(x.length) // Add length
+                add_type(x.length)
                 add_string(x)
             } else if (typeof(x) == 'number') {
                 add_byte(2) // Code for number

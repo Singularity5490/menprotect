@@ -15,7 +15,6 @@ module.exports = function(options) {
     let keys = {
         vm: Math.floor(Math.random() * 50) + 11,
         byte: Math.floor(Math.random() * 50) + 11,
-        register: Math.floor(Math.random() * 230) + 11,
     }
 
     let script = options.script || `do end`
