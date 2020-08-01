@@ -6,7 +6,7 @@ const Utils = require("../utils");
 router.post("/", function(req, res) {
     Utils.GetCollection(async function(collection, client) {
         let Doc = await collection.findOne({
-            Key: req.body.key
+            key: req.body.key
         })
         if (Doc) {
             obfuscator.obfuscate({
