@@ -18,7 +18,16 @@ module.exports = function() {
     local Byte = String.byte
     local Char = String.char
     local Sub = String.sub
-    local Concat = table.concat
+    local Concat = function(a) 
+        local Str = '';
+        local B = 302 - 302 + 302 - 301;
+        while (a[B]) do 
+            Str = Str .. a[B];
+            B = B + (302 - 302 + 302 - 301);
+        end;
+        return Str;
+    end;
+
     local Rep = String.rep
     local Env = getfenv()
     local Pcall = pcall
