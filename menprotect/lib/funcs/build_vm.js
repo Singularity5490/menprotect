@@ -34,18 +34,13 @@ module.exports = function(data, keys) {
         { // Add opcodes
             function add_opcodes() {
                 let first = true
-                keyword = 'if'
-
-                // print(proto.Instr)
-                // print(instructions[30])
+                let keyword = 'if'
 
                 let n = 0
                 Object.keys(instructions).forEach(function(real_opcode) {
                     n++
 
                     let opcode = instructions[real_opcode]
-
-                    // if (real_opcode == 30) print(opcode)
 
                     add(`${keyword} Enum == ${opcode} then\n`)
                     add_opcode(real_opcode, keys, instructions)
