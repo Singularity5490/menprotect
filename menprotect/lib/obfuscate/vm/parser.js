@@ -6,7 +6,7 @@ module.exports = function(data) {
 
     return `
     local function parse(bytecode)
-        bytecode = encrypt(fromhex(bytecode), ${keys.byte})
+        bytecode = encrypt((bytecode), ${keys.byte})
         
         local type_index, bit_idx
         type_index = {

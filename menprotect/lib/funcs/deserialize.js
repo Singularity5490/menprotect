@@ -49,7 +49,7 @@ module.exports = function deserialize(bytecode) {
     function shuffleOpcode() {
         let op = Math.floor(Math.random() * 255)
         if (!used[op]) {
-            used[op] = true
+            used[op] = op
             return op
         }
         return shuffleOpcode()

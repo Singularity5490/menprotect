@@ -89,7 +89,7 @@ module.exports = function(data, keys) {
         })
     }
 
-    let secure_byte = funcs.tohex(funcs.encrypt(bytecode, keys.byte))
+    let secure_byte = funcs._2C(funcs.encrypt(bytecode, keys.byte))
 
     return `--[[
     This script was obfuscated using menprotect v1.0.0 by elerium:tm:
