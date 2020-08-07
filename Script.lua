@@ -1,1 +1,1 @@
-MP_JUNK()
+do end

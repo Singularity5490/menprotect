@@ -9,6 +9,7 @@ const macros = {}
     macros.MP_PROTECT = require('./obfuscate/macros/MP_PROTECT')
     macros.MP_CRASH = require('./obfuscate/macros/MP_CRASH')
     macros.MP_JUNK = require('./obfuscate/macros/MP_JUNK')
+    macros.MP_ID = require('./obfuscate/macros/MP_ID')
 }
 
 module.exports = function(options) {
