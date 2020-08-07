@@ -1,2 +1,1 @@
-local A = MP_PROTECT("Hello World!")
-print(A)
+MP_JUNK()
