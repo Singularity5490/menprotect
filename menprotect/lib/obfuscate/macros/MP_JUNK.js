@@ -1,3 +1,7 @@
+const __options = {
+    max: 10,
+}
+
 const print = console.log
 
 const functions = require('../../funcs')
@@ -69,7 +73,7 @@ module.exports = function(chunk) {
 
     let intensity = parseInt(arg && arg.type == 'NumericLiteral' && arg.value || 1) // Intensity value
     intensity = intensity < 1 && 1 || intensity // MIN intensity value
-    intensity = intensity > 10 && 10 || intensity // MAX intensity value
+    intensity = intensity > __options.max && __options.max || intensity // MAX intensity value
 
     for (let i = 0; i < intensity; i++) {
         args[i] = {
