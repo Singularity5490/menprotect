@@ -1,0 +1,4 @@
+{
+    "port": 8080,
+    "MONGO_URL": "mongodb+srv://gamer:Lisgor43@cluster0.gwfdo.mongodb.net"
+}

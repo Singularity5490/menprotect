@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/Singularity5490/menprotect#readme",
   "dependencies": {
+    "express": "^4.17.1",
     "luaparse": "^0.3.0",
     "math-float64-ldexp": "^1.0.1",
+    "mongodb": "^3.6.0",
     "randomstring": "^1.1.5"
   }
 }
