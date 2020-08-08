@@ -21,16 +21,14 @@ module.exports = function() {
 		end;
 	
 		return;
-	else
-		return print(B);
 	end;
 	end;
 	end;
 	
 	return function(bytecode)
 	local buffer = parse(bytecode)
-	___index = vm_strings[1]
-	___newindex = vm_strings[2]
+	___index = vm_strings[2]
+	___newindex = vm_strings[3]
 	Wrap(buffer)()
 	end
 	

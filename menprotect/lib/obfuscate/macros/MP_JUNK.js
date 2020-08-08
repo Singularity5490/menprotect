@@ -67,19 +67,21 @@ function gJunk() {
     return fClosure
 }
 
-module.exports = function(chunk) {
-    let args = chunk.arguments
-    let arg = args[0]
-
-    let intensity = parseInt(arg && arg.type == 'NumericLiteral' && arg.value || 1) // Intensity value
-    intensity = intensity < 1 && 1 || intensity // MIN intensity value
-    intensity = intensity > __options.max && __options.max || intensity // MAX intensity value
-
-    for (let i = 0; i < intensity; i++) {
-        args[i] = {
-            type: 'StringLiteral',
-            value: null,
-            raw: gJunk(),
+module.exports = {
+    handler: function(chunk) {
+        let args = chunk.arguments
+        let arg = args[0]
+    
+        let intensity = parseInt(arg && arg.type == 'NumericLiteral' && arg.value || 1) // Intensity value
+        intensity = intensity < 1 && 1 || intensity // MIN intensity value
+        intensity = intensity > __options.max && __options.max || intensity // MAX intensity value
+    
+        for (let i = 0; i < intensity; i++) {
+            args[i] = {
+                type: 'StringLiteral',
+                value: null,
+                raw: gJunk(),
+            }
         }
-    }
+    },
 }

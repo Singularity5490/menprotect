@@ -10,12 +10,14 @@ const macros = {}
     macros.MP_CRASH = require('./obfuscate/macros/MP_CRASH')
     macros.MP_JUNK = require('./obfuscate/macros/MP_JUNK')
     macros.MP_ID = require('./obfuscate/macros/MP_ID')
+    macros.MP_RANDOM = require('./obfuscate/macros/MP_RANDOM')
 }
 
 module.exports = function(options) {
     let start = funcs.get_mili_time()
 
     let keys = {
+        creator: options.notes || `NULL`,
         vm: Math.floor(Math.random() * 50) + 11,
         byte: Math.floor(Math.random() * 50) + 11,
     }
@@ -63,7 +65,8 @@ module.exports = function(options) {
                         let func = base.name // Function name (Macro)
 
                         if (macros[func]) { // Is calling macro
-                            macros[func](__chunk) // Call macro with chunk data
+                            let handler = macros[func].handler || function(){}
+                            handler(__chunk) // Call macro with chunk data
                             log(`MACRO USED : "${func}"`)
                         }
                     }
@@ -78,8 +81,11 @@ module.exports = function(options) {
         let source = funcs.minify(AST)
         script = '' // Clear script
 
-        Object.keys(macros).forEach(function(value) { // For each macro, add lua function
-            script += `local function ${value}(...)return(...)end\n`
+        Object.keys(macros).forEach(function(macro) { // For each macro, add lua function
+            let macroData = macros[macro]
+            let addon = macroData.addon || ``
+            let static = macroData.static || `return(...)`
+            script += `\n${addon}\nlocal function ${macro}(...) ${static} end\n`
         })
 
         script += source // Add script back

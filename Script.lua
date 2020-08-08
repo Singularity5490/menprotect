@@ -1,1 +1,1 @@
-do end
+print('Hello World!')
