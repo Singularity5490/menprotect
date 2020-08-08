@@ -1,8 +1,20 @@
+const print = console.log
+
 const functions = require('../../funcs')
 const funcs = new functions()
 
+const mapping_strings = {
+    info: `local Args, Upvals = gInfo()`,
+    instructions: `gInstructions()`,
+    constants: `gConstants()`,
+    protos: `gProtos()`,
+}
+
 module.exports = function(data) {
-    let keys = data[0]
+    let mapping = data[0]
+    let keys = data[1]
+
+    print(mapping)
 
     return `
     local function parse(bytecode)
@@ -87,10 +99,11 @@ module.exports = function(data) {
             local Constants = {}
             local Protos = {}
 
-            local Args = gBit()
-            local Upvals = gBit()
+            local function gInfo()
+                return gBit(), gBit()
+            end
 
-            do -- Load instructions
+            local function gInstructions() -- Load instructions
                 for i1 = 1, gType() do -- Amount of instructions
                     Instructions[i1] = {} -- Register
                     for i2 = 1, gBit() - 2 do -- For each value in register (except Enum and Value, hence -2)
@@ -102,17 +115,22 @@ module.exports = function(data) {
                 end
             end
 
-            do -- Load constants
+            local function gConstants() -- Load constants
                 for i = 1, gType() do -- Amount of constants
                     Constants[i] = gType()
                 end
             end
 
-            do -- Load protos
+            local function gProtos() -- Load protos
                 for i = 1, gType() do -- Amount of protos
                     Protos[i] = decode_chunk()
                 end
             end
+
+            ${mapping_strings[mapping[0]]}
+            ${mapping_strings[mapping[1]]}
+            ${mapping_strings[mapping[2]]}
+            ${mapping_strings[mapping[3]]}
 
             return {
                 O_INSTR = Instructions,

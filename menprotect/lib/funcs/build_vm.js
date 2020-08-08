@@ -8,6 +8,7 @@ module.exports = function(data, keys) {
     let proto = data.proto
     let instructions = data.instructions
     let bytecode = data.bytecode
+    let mapping = data.mapping
 
     let build = ''
     { // Functions
@@ -28,7 +29,7 @@ module.exports = function(data, keys) {
 
     { // Build VM
         add_source('variables')
-        add_source('parser', keys)
+        add_source('parser', mapping, keys)
         add_source('init')
 
         { // Add opcodes

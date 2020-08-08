@@ -100,16 +100,17 @@ module.exports = function(options) {
         let deserialized = funcs.deserialize(bytecode) // Deserialize bytecode into a proto structure
 
         state('Generating stream')
-        let stream = funcs.reserialize(deserialized, keys) // Convert proto structure into a bytecode stream
+        let reserialized = funcs.reserialize(deserialized, keys) // Convert proto structure into a bytecode stream
 
         state('Converting')
-        let mp_bytecode = funcs.convertstream(stream) // Convert bytecode stream into a string
+        let mp_bytecode = funcs.convertstream(reserialized.stream) // Convert bytecode stream into a string
 
         state('Building VM')
         let vm = funcs.build_vm({
             proto: deserialized.proto,
             instructions: deserialized.instructions,
             bytecode: mp_bytecode,
+            mapping: reserialized.mapping,
         }, keys)
 
         // print(funcs._2C(bytecode))

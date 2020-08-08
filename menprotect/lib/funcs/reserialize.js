@@ -3,12 +3,33 @@ const print = console.log
 const functions = require('../funcs')
 const funcs = new functions()
 
+function gMapping() {
+    let mapping = []
+    
+    let index = ['info', 'instructions', 'constants', 'protos']
+    
+    let used = []
+    function gRan() {
+        let num = Math.floor(Math.random() * index.length)
+        if (used[num]) return gRan()
+        used[num] = true
+        return index[num]
+    }
+
+    for (let i = 1; i <= index.length; i++) {
+        mapping.push(gRan())
+    }
+    
+    return mapping
+}
+
 module.exports = function(data, keys) {
     let proto = data.proto
     let instructions = data.instructions
     let vmkey = keys.vm
     let creator_id = keys.creator
 
+    let mapping = gMapping()
     let stream = []
 
     { // Stream functions
@@ -54,43 +75,52 @@ module.exports = function(data, keys) {
     }
 
     function add_chunk(chunk) {
-        add_byte(chunk.Args) // Args
-        add_byte(chunk.Upvals) // Upvals
 
-        { // Add instructions
-            let c_instrutions = Object.keys(chunk.Instr) // Instructions index
-            add_type(c_instrutions.length) // Add amount of instruction registers to stream
+        let chunk_map = {
+            info: function() {
+                add_byte(chunk.Args) // Args
+                add_byte(chunk.Upvals) // Upvals
+            },
 
-            for (let i = 1; i <= c_instrutions.length; i++) { // For each register, add data to stream
-                let c_register = Object.keys(chunk.Instr[i]) // Register index
-                add_byte(c_register.length)
+            instructions: function() { // Add instructions
+                let c_instrutions = Object.keys(chunk.Instr) // Instructions index
+                add_type(c_instrutions.length) // Add amount of instruction registers to stream
+    
+                for (let i = 1; i <= c_instrutions.length; i++) { // For each register, add data to stream
+                    let c_register = Object.keys(chunk.Instr[i]) // Register index
+                    add_byte(c_register.length)
+    
+                    c_register.forEach(function(index) {
+                        let value = chunk.Instr[i][index] // Register value
+                        add_type(value) // Add value to stream
+                    })
+                }
+            },
 
-                c_register.forEach(function(index) {
-                    let value = chunk.Instr[i][index] // Register value
-                    add_type(value) // Add value to stream
-                })
-            }
+            constants: function() { // Add constants
+                let c_constants = Object.keys(chunk.Const) // Constants index
+                add_type(c_constants.length) // Add amount of constants to stream
+    
+                for (let i = 1; i <= c_constants.length; i++) {
+                    let constant = chunk.Const[i]
+                    add_type(constant)
+                }
+            },
+
+            protos: function() { // Add protos
+                let c_protos = Object.keys(chunk.Proto) // Protos index
+                add_type(c_protos.length) // Amount of protos
+    
+                for (let i = 1; i <= c_protos.length; i++) { // For each proto
+                    let proto = chunk.Proto[i]
+                    add_chunk(proto) // Add proto to stream
+                }
+            },
         }
 
-        { // Add constants
-            let c_constants = Object.keys(chunk.Const) // Constants index
-            add_type(c_constants.length) // Add amount of constants to stream
-
-            for (let i = 1; i <= c_constants.length; i++) {
-                let constant = chunk.Const[i]
-                add_type(constant)
-            }
-        }
-
-        { // Add protos
-            let c_protos = Object.keys(chunk.Proto) // Protos index
-            add_type(c_protos.length) // Amount of protos
-
-            for (let i = 1; i <= c_protos.length; i++) { // For each proto
-                let proto = chunk.Proto[i]
-                add_chunk(proto) // Add proto to stream
-            }
-        }
+        mapping.forEach(function(value, index) {
+            chunk_map[value]()
+        })
 
     }
 
@@ -108,5 +138,8 @@ module.exports = function(data, keys) {
 
     add_chunk(proto) // Decode chunk(s)
 
-    return stream
+    return {
+        stream: stream,
+        mapping: mapping,
+    }
 }
