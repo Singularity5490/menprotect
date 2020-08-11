@@ -1,6 +1,15 @@
-const print = console.log
 
-const gRan = `
+
+local function MP_PROTECT(...) return(...) end
+
+
+local function MP_CRASH(...) while true do end end
+
+
+local function MP_JUNK(...) return(...) end
+
+
+    local __MP_RUNTIME_ID = 
 ((function()
 local function xor(a,b)
     local p,c=1,0
@@ -23,18 +32,17 @@ local ID = X:sub(10, #X)
 
 local cs = ''
 for i = 1, #ID do
-    cs = cs .. xor(string.byte(ID:sub(i, i)), ${Math.floor(Math.random() * 90) + 10})
+    cs = cs .. xor(string.byte(ID:sub(i, i)), 31)
 end
 
 return cs:sub(2, 9)
 end)())
-`
 
-module.exports = {
-    addon: `
-    local __MP_RUNTIME_ID = ${gRan}
-    `,
-    static: `
+    
+local function MP_ID(...) 
         return __MP_RUNTIME_ID
-    `,
-}
+     end
+
+
+local function MP_RANDOM(...) return(...) end
+if not(true~=true)then end

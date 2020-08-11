@@ -1,3 +1,5 @@
+const print = console.log
+
 module.exports = class funcs {
     constructor() {
         this.xor = require('./funcs/xor')
@@ -23,5 +25,34 @@ module.exports = class funcs {
             }
             return cs
         }
+
+        this.overwrite_chunk = function(old_chunk, new_chunk) {
+            Object.keys(new_chunk).forEach(function(index) {
+                let value = new_chunk[index]
+                old_chunk[index] = value
+            })
+        }
+
+        { // Mutation handler
+
+            let connections = {}
+            this.mutation_handler = function(mutations, handle) {
+                if (!mutations[handle]) mutations[handle] = {
+                    connect: function(callback) { // Mutation connect function
+                        if (!connections[handle]) connections[handle] = [] // Create mutation type expression index
+                        connections[handle].push(callback) // Push callback function
+                    },
+                    fire: function(chunk) {
+                        if (connections[handle]) {
+                            connections[handle].forEach(function(value) {
+                                value(chunk)
+                            })
+                        }
+                    },
+                }
+            }
+
+        }
+
     }
 }

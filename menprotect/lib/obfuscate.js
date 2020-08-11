@@ -1,5 +1,6 @@
 const print = console.log
 const date = new Date()
+const fs = require('fs')
 
 const functions = require('./funcs')
 const funcs = new functions()
@@ -13,8 +14,17 @@ const macros = {}
     macros.MP_RANDOM = require('./obfuscate/macros/MP_RANDOM')
 }
 
+const mutations = {}
+{ // Load mutation handlers
+    require('./obfuscate/mutations/EQ').init(mutations)
+}
+
 module.exports = function(options) {
     let start = funcs.get_mili_time()
+
+    let stats = {
+        mutations: 0,
+    }
 
     let keys = {
         creator: options.notes || `NULL`,
@@ -24,6 +34,7 @@ module.exports = function(options) {
 
     let script = options.script || `do end`
     let callback = options.callback || function(){}
+    let specified_options = options.options || {}
 
     let state = function(body) { // Change in states
         let func = options.state || function(){}
@@ -49,7 +60,7 @@ module.exports = function(options) {
 
     state('Initializing')
 
-    try { // Scan for macros
+    try { // AST Handler
         let AST = funcs.parse(script)
         state('Mapping')
         function scan(chunk) {
@@ -71,6 +82,15 @@ module.exports = function(options) {
                         }
                     }
 
+                    if (mutations[type]) { // Mutation handler
+                        mutations[type].fire({
+                            options: specified_options,
+                            stats: stats,
+                            subchunk: chunk,
+                            idx: v1,
+                        })
+                    }
+
                     scan(__chunk) // Scan chunk descendants
                 }
             })
@@ -89,6 +109,7 @@ module.exports = function(options) {
         })
 
         script += source // Add script back
+        fs.writeFileSync('./menprotect/ast.lua', script)
     } catch (err) {
         return log(`${err.toString()}`, 3)
     }
@@ -120,6 +141,7 @@ module.exports = function(options) {
             let time = parseFloat((funcs.get_mili_time() - start).toString().substring(0, 6))
             state('Done !')
             callback({
+                stats: stats,
                 script: vm,
                 time: time,
             })
