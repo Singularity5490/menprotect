@@ -4,17 +4,30 @@ const functions = require('../../funcs')
 const funcs = new functions()
 
 const mapping_strings = {
-    info: `local Args, Upvals = gInfo()`,
-    instructions: `gInstructions()`,
-    constants: `gConstants()`,
-    protos: `gProtos()`,
+    info: `local Args, Upvals = gBit(), gBit()`,
+    instructions: `
+for i1 = 1, gType() do -- Amount of instructions
+    Instructions[i1] = {} -- Register
+    for i2 = 1, gBit() - 2 do -- For each value in register (except Enum and Value, hence -2)
+        Instructions[i1][i2] = gType() -- Add to register
+    end
+
+    Instructions[i1].O_VALUE = gType() -- Add Value
+    Instructions[i1].O_ENUM = gType() -- Add Enum
+end`,
+    constants: `
+for i = 1, gType() do -- Amount of constants
+    Constants[i] = gType()
+end`,
+    protos: `
+for i = 1, gType() do -- Amount of protos
+    Protos[i] = decode_chunk()
+end`,
 }
 
 module.exports = function(data) {
     let mapping = data[0]
     let keys = data[1]
-
-    print(mapping)
 
     return `
     local function parse(bytecode)
@@ -98,34 +111,6 @@ module.exports = function(data) {
             local Instructions = {}
             local Constants = {}
             local Protos = {}
-
-            local function gInfo()
-                return gBit(), gBit()
-            end
-
-            local function gInstructions() -- Load instructions
-                for i1 = 1, gType() do -- Amount of instructions
-                    Instructions[i1] = {} -- Register
-                    for i2 = 1, gBit() - 2 do -- For each value in register (except Enum and Value, hence -2)
-                        Instructions[i1][i2] = gType() -- Add to register
-                    end
-
-                    Instructions[i1].O_VALUE = gType() -- Add Value
-                    Instructions[i1].O_ENUM = gType() -- Add Enum
-                end
-            end
-
-            local function gConstants() -- Load constants
-                for i = 1, gType() do -- Amount of constants
-                    Constants[i] = gType()
-                end
-            end
-
-            local function gProtos() -- Load protos
-                for i = 1, gType() do -- Amount of protos
-                    Protos[i] = decode_chunk()
-                end
-            end
 
             ${mapping_strings[mapping[0]]}
             ${mapping_strings[mapping[1]]}
