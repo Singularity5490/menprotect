@@ -27,7 +27,7 @@ module.exports = function(data, keys) {
     let proto = data.proto
     let instructions = data.instructions
     let vmkey = keys.vm
-    let creator_id = keys.creator
+    let fingerprint = keys.fingerprint
 
     let mapping = gMapping()
     let stream = []
@@ -159,7 +159,7 @@ module.exports = function(data, keys) {
     add_string('menprotect|') // Header
     add_byte(vmkey) // VM key
     
-    add_payload([funcs.encrypt(creator_id, 177), '__index', '__newindex']) // General VM strings
+    add_payload([funcs.encrypt(fingerprint, 177), '__index', '__newindex']) // General VM strings
 
     add_chunk(proto) // Decode chunk(s)
 

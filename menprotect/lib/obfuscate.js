@@ -23,11 +23,12 @@ module.exports = function(options) {
     let start = funcs.get_mili_time()
 
     let stats = {
+        fingerprint: funcs.randomstring(12),
         mutations: 0,
     }
 
     let keys = {
-        creator: options.notes || `NULL`,
+        fingerprint: stats.fingerprint,
         vm: Math.floor(Math.random() * 50) + 11,
         byte: Math.floor(Math.random() * 50) + 11,
     }
@@ -82,13 +83,15 @@ module.exports = function(options) {
                         }
                     }
 
-                    if (mutations[type]) { // Mutation handler
-                        mutations[type].fire({
-                            options: specified_options,
-                            stats: stats,
-                            subchunk: chunk,
-                            idx: v1,
-                        })
+                    if (specified_options.mutations.enabled) {
+                        if (mutations[type]) { // Mutation handler
+                            mutations[type].fire({
+                                options: specified_options,
+                                stats: stats,
+                                subchunk: chunk,
+                                idx: v1,
+                            })
+                        }
                     }
 
                     scan(__chunk) // Scan chunk descendants
@@ -140,11 +143,11 @@ module.exports = function(options) {
 
         { // Return
             let time = parseFloat((funcs.get_mili_time() - start).toString().substring(0, 6))
+            stats.time = time
             state('Done !')
             callback({
                 stats: stats,
                 script: vm,
-                time: time,
             })
         }
     })

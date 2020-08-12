@@ -10,16 +10,17 @@ obfuscator.obfuscate({
     callback: function(data) {
         print(data.stats)
 
-        console.log('\x1b[36m' + `Obfuscated in ${data.time} ms!` + '\x1b[0m')
+        console.log('\x1b[36m' + `Obfuscated script in ${data.stats.time} ms!` + '\x1b[0m')
         fs.writeFileSync("./Out.lua", data.script)
     },
     
     options: {
-        max_mutations: {
-            enabled: true,
-            amount: 50,
+        mutations: {
+            enabled: false,
+            max: {
+                enabled: true,
+                amount: 50,
+            },
         },
     },
-
-    notes: `290478444347785217`, // Discord ID
 })

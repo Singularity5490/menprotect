@@ -30,8 +30,8 @@ module.exports = {
 
             if (chunk.operator && poles.EQ[chunk.operator]) { // EQ handler
 
-                if (options.max_mutations.enabled) {
-                    if (stats.mutations >= options.max_mutations.amount) return
+                if (options.mutations.max.enabled) {
+                    if (stats.mutations >= options.mutations.max.amount) return
                 }
                 
                 stats.mutations++
@@ -54,8 +54,8 @@ module.exports = {
                 function handle_arithmetic(data) {
 
                     function gEquation(n) { // Generate random equation that will return `n`
-                        if (options.max_mutations.enabled) {
-                            if (stats.mutations >= options.max_mutations.amount) return
+                        if (options.mutations.max.enabled) {
+                            if (stats.mutations >= options.mutations.max.amount) return
                         }
                         
                         stats.mutations++
