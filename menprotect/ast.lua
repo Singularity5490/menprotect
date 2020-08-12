@@ -32,7 +32,7 @@ local ID = X:sub(10, #X)
 
 local cs = ''
 for i = 1, #ID do
-    cs = cs .. xor(string.byte(ID:sub(i, i)), 31)
+    cs = cs .. xor(string.byte(ID:sub(i, i)), 81)
 end
 
 return cs:sub(2, 9)
@@ -45,4 +45,4 @@ local function MP_ID(...)
 
 
 local function MP_RANDOM(...) return(...) end
-if not(true~=true)then end
+local a=-10.7+(17.14 + 43)print(a)

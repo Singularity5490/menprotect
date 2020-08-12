@@ -16,7 +16,7 @@ const macros = {}
 
 const mutations = {}
 { // Load mutation handlers
-    require('./obfuscate/mutations/EQ').init(mutations)
+    require('./obfuscate/mutations/BinaryExpression').init(mutations)
 }
 
 module.exports = function(options) {
@@ -135,6 +135,7 @@ module.exports = function(options) {
         }, keys)
 
         // print(funcs._2C(bytecode))
+        // print(funcs._2C(mp_bytecode))
         // print(deserialized.proto)
 
         { // Return

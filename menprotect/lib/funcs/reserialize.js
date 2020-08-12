@@ -56,19 +56,44 @@ module.exports = function(data, keys) {
 
         function add_type(x) {
             if (typeof(x) == 'string') {
+
                 add_byte(1) // Code for string
                 // add_byte(x.length) // Add length
                 add_type(x.length)
                 add_string(x)
+
             } else if (typeof(x) == 'number') {
-                add_byte(2) // Code for number
-                add_byte(x.toString().length)
-                add_bytes(x)
+
+                if (Math.abs(x) % 1 > 0) { // Is decimal
+                    let pure = parseInt(x - x % 1)
+                    let decimals = (x!=Math.floor(x))?(x.toString()).split('.')[1].length:0;
+                    let decimal = (x - pure).toFixed(decimals)
+
+                    add_byte(4) // Code for decimal
+                    
+                    // Add pure number
+                    add_byte(pure.toString().length)
+                    add_bytes(pure)
+
+                    // Add decimal number
+                    add_byte(decimal.length - 2)
+                    add_bytes(decimal.substr(2, decimal.length))
+
+                } else { // Straight number
+                    add_byte(2) // Code for number
+                    add_byte(x.toString().length)
+                    add_bytes(x)
+                }
+
             } else if (typeof(x) == 'boolean') {
+
                 add_byte(3) // Code for boolean
                 add_byte(x == true && 1 || 0)
+
             } else { // NULL
+
                 add_byte(0) // Code for nil
+
             }
 
         }

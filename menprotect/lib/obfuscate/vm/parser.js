@@ -87,21 +87,27 @@ module.exports = function(data) {
             local Length = 1
             local lFunc = Type == 1 and gType or gBit
 
-            if Type < 3 then -- If not boolean
+            if Type ~= 3 then -- If not boolean
                 Length = lFunc()
             end
 
             local isNegative = false
-            if (Type == 2 and silent_gBit() == 0) and (Length ~= 1) then
+            if ((Type == 2 or Type == 4) and silent_gBit() == 0) and (Length ~= 1) then
                 isNegative = true
             end
 
-            local Func = (Type > 2 and gBit) or (Type > 1 and gBits) or gString
-            local Data = type_index[Type](Func(Length))
-            if isNegative then
-                return -Data
+            if Type == 4 then -- decimal number
+                local number = gBits(Length)
+                local _decimal = gBits(gBit())
+                local decimal = _decimal / (10 ^ #_tostring(_decimal))
+                local fNumber = number + decimal
+
+                return isNegative and -fNumber or fNumber
+            else
+                local Func = (Type > 2 and gBit) or (Type > 1 and gBits) or gString
+                local Data = type_index[Type](Func(Length))
+                return isNegative and -Data or Data
             end
-            return Data
         end
 
         gString(0xB)

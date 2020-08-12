@@ -20,10 +20,10 @@ module.exports = function() {
     local Sub = String.sub
     local Concat = function(a) 
         local Str = '';
-        local B = 302 - 302 + 302 - 301;
+        local B = 1;
         while (a[B]) do 
             Str = Str .. a[B];
-            B = B + (302 - 302 + 302 - 301);
+            B = B + 1;
         end;
         return Str;
     end;
