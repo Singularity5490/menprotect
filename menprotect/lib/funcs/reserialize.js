@@ -28,8 +28,8 @@ module.exports = function(data, keys) {
     let fingerprint = keys.fingerprint
 
     let structureMapping = gMapping(['info', 'instructions', 'constants', 'protos'])
-    let typeMapping = gMapping([1, 2, 3, 4])
-    typeMapping.push(0) // 0 has to be last for some reason
+    let typeMapping = [0, 1, 2, 3, 4]//gMapping([1, 2, 3, 4])
+    // typeMapping.push(0) // 0 has to be last for some reason
 
     let stream = []
 
@@ -169,7 +169,7 @@ module.exports = function(data, keys) {
     add_string('menprotect|') // Header
     add_byte(vmkey) // VM key
     
-    add_payload([funcs.encrypt(fingerprint, 177), '__index', '__newindex']) // General VM strings
+    add_payload([funcs.encrypt(fingerprint, 177), 'debug', 'getinfo', 'linedefined', 'lastlinedefined', '__index', '__newindex']) // General VM strings
 
     add_chunk(proto) // Decode chunk(s)
 

@@ -27,9 +27,21 @@ module.exports = function() {
 	
 	return function(bytecode)
 	local buffer = parse(bytecode)
-	___index = vm_strings[2]
-	___newindex = vm_strings[3]
+
+	encrypt(vm_strings[1], 0)
+
+	__debug = vm_strings[2]
+	__getinfo = vm_strings[3]
+
+	__linedefined = vm_strings[4]
+	__lastlinedefined = vm_strings[5]
+
+	___index = vm_strings[6]
+	___newindex = vm_strings[7]
+
+	CheckMinification()
 	Wrap(buffer)()
+
 	end
 	
 	`

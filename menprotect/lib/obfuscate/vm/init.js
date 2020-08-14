@@ -1,5 +1,13 @@
 module.exports = function() {
 	return `
+
+	local function CheckMinification()
+		local getinfo = Env[__debug][__getinfo]
+		local info = getinfo(empty_func)
+		local tampered = info[__linedefined] ~= info[__lastlinedefined]
+		while tampered do end
+	end
+
 	local function Wrap(Chunk, Upvalues)
 		local Instr	= Chunk.O_INSTR;
 		local Const	= Chunk.O_CONST;

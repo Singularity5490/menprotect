@@ -32,9 +32,6 @@ module.exports = function(data) {
     let structureMapping = mapping.structure
     let typeMapping = mapping.type
 
-    print(structureMapping)
-    print(typeMapping)
-
     return `
     local function parse(bytecode)
         bytecode = encrypt((bytecode), ${keys.byte})

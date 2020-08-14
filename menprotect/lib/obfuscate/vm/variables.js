@@ -4,6 +4,12 @@ module.exports = function() {
     local opcodes
     local ___index
     local ___newindex
+
+    local __debug
+    local __getinfo
+
+    local __linedefined
+    local __lastlinedefined
     
     local empty_func = function(...)return(...)end
     

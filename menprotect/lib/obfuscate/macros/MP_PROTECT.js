@@ -88,9 +88,9 @@ module.exports = {
         }
 
         if (arg.type == 'NumericLiteral') { // If first argument is <int / float>
-            if (arg.value && arg.raw) {
-                arg.raw = gEquation(arg.value)
-            }
+            // if (arg.value && arg.raw) {
+            //     arg.raw = gEquation(arg.value)
+            // }
         }
 
     },
