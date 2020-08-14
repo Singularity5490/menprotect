@@ -3,10 +3,8 @@ const print = console.log
 const functions = require('../funcs')
 const funcs = new functions()
 
-function gMapping() {
+function gMapping(index) {
     let mapping = []
-    
-    let index = ['info', 'instructions', 'constants', 'protos']
     
     let used = []
     function gRan() {
@@ -29,7 +27,10 @@ module.exports = function(data, keys) {
     let vmkey = keys.vm
     let fingerprint = keys.fingerprint
 
-    let mapping = gMapping()
+    let structureMapping = gMapping(['info', 'instructions', 'constants', 'protos'])
+    let typeMapping = gMapping([1, 2, 3, 4])
+    typeMapping.push(0)
+
     let stream = []
 
     { // Stream functions
@@ -55,9 +56,18 @@ module.exports = function(data, keys) {
         }
 
         function add_type(x) {
+            
+            /*
+                0:  Null
+                1:  String
+                2:  Int
+                3:  Boolean
+                4:  Float
+            */
+
             if (typeof(x) == 'string') {
 
-                add_byte(1) // Code for string
+                add_byte(typeMapping[1]) // Code for string
                 // add_byte(x.length) // Add length
                 add_type(x.length)
                 add_string(x)
@@ -69,7 +79,7 @@ module.exports = function(data, keys) {
                     let decimals = (x!=Math.floor(x))?(x.toString()).split('.')[1].length:0;
                     let decimal = (x - pure).toFixed(decimals)
 
-                    add_byte(4) // Code for decimal
+                    add_byte(typeMapping[4]) // Code for decimal
                     
                     // Add pure number
                     add_byte(pure.toString().length)
@@ -80,19 +90,19 @@ module.exports = function(data, keys) {
                     add_bytes(decimal.substr(2, decimal.length))
 
                 } else { // Straight number
-                    add_byte(2) // Code for number
+                    add_byte(typeMapping[2]) // Code for number
                     add_byte(x.toString().length)
                     add_bytes(x)
                 }
 
             } else if (typeof(x) == 'boolean') {
 
-                add_byte(3) // Code for boolean
+                add_byte(typeMapping[3]) // Code for boolean
                 add_byte(x == true && 1 || 0)
 
             } else { // NULL
 
-                add_byte(0) // Code for nil
+                add_byte(typeMapping[0]) // Code for nil
 
             }
 
@@ -143,7 +153,7 @@ module.exports = function(data, keys) {
             },
         }
 
-        mapping.forEach(function(value, index) {
+        structureMapping.forEach(function(value, index) {
             chunk_map[value]()
         })
 
@@ -165,6 +175,9 @@ module.exports = function(data, keys) {
 
     return {
         stream: stream,
-        mapping: mapping,
+        mapping: {
+            structure: structureMapping,
+            type: typeMapping,
+        },
     }
 }

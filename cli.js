@@ -16,7 +16,7 @@ obfuscator.obfuscate({
     
     options: {
         mutations: {
-            enabled: false,
+            enabled: true,
             max: {
                 enabled: true,
                 amount: 50,

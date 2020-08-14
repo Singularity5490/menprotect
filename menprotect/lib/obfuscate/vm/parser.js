@@ -3,7 +3,7 @@ const print = console.log
 const functions = require('../../funcs')
 const funcs = new functions()
 
-const mapping_strings = {
+const structure_mapping_strings = {
     info: `local Args, Upvals = gBit(), gBit()`,
     instructions: `
 for i1 = 1, gType() do -- Amount of instructions
@@ -29,15 +29,21 @@ module.exports = function(data) {
     let mapping = data[0]
     let keys = data[1]
 
+    let structureMapping = mapping.structure
+    let typeMapping = mapping.type
+
+    print(structureMapping)
+    print(typeMapping)
+
     return `
     local function parse(bytecode)
         bytecode = encrypt((bytecode), ${keys.byte})
         
         local type_index, bit_idx
         type_index = {
-            _tostring,
-            _tonumber,
-            function(bit)
+            [${typeMapping[1]}] = _tostring,
+            [${typeMapping[2]}] = _tonumber,
+            [${typeMapping[3]}] = function(bit)
                 bit_idx = {
                     false,
                     true,
@@ -85,18 +91,18 @@ module.exports = function(data) {
             if Type == 0 then return end
 
             local Length = 1
-            local lFunc = Type == 1 and gType or gBit
+            local lFunc = Type == ${typeMapping[1]} and gType or gBit
 
-            if Type ~= 3 then -- If not boolean
+            if Type ~= ${typeMapping[3]} then -- If not boolean
                 Length = lFunc()
             end
 
             local isNegative = false
-            if ((Type == 2 or Type == 4) and silent_gBit() == 0) and (Length ~= 1) then
+            if ((Type == ${typeMapping[2]} or Type == ${typeMapping[4]}) and silent_gBit() == 0) and (Length ~= 1) then
                 isNegative = true
             end
 
-            if Type == 4 then -- decimal number
+            if Type == ${typeMapping[4]} then -- decimal number
                 local number = gBits(Length)
                 local _decimal = gBits(gBit())
                 local decimal = _decimal / (10 ^ #_tostring(_decimal))
@@ -104,7 +110,7 @@ module.exports = function(data) {
 
                 return isNegative and -fNumber or fNumber
             else
-                local Func = (Type > 2 and gBit) or (Type > 1 and gBits) or gString
+                local Func = (Type == ${typeMapping[3]} and gBit) or (Type == ${typeMapping[2]} and gBits) or gString
                 local Data = type_index[Type](Func(Length))
                 return isNegative and -Data or Data
             end
@@ -118,10 +124,10 @@ module.exports = function(data) {
             local Constants = {}
             local Protos = {}
 
-            ${mapping_strings[mapping[0]]}
-            ${mapping_strings[mapping[1]]}
-            ${mapping_strings[mapping[2]]}
-            ${mapping_strings[mapping[3]]}
+            ${structure_mapping_strings[structureMapping[0]]}
+            ${structure_mapping_strings[structureMapping[1]]}
+            ${structure_mapping_strings[structureMapping[2]]}
+            ${structure_mapping_strings[structureMapping[3]]}
 
             return {
                 O_INSTR = Instructions,
