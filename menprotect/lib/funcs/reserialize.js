@@ -29,7 +29,7 @@ module.exports = function(data, keys) {
 
     let structureMapping = gMapping(['info', 'instructions', 'constants', 'protos'])
     let typeMapping = gMapping([1, 2, 3, 4])
-    typeMapping.push(0)
+    typeMapping.push(0) // 0 has to be last for some reason
 
     let stream = []
 
