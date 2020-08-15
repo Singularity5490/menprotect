@@ -23,4 +23,5 @@ obfuscator.obfuscate({
             },
         },
     },
+    debug: true
 })

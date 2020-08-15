@@ -112,7 +112,9 @@ module.exports = function(options) {
         })
 
         script += source // Add script back
-        fs.writeFileSync('./menprotect/ast.lua', script)
+        if (options.debug) {
+            fs.writeFileSync('./menprotect/ast.lua', script)
+        };
     } catch (err) {
         return log(`${err.toString()}`, 3)
     }
