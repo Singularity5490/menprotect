@@ -9,8 +9,6 @@ obfuscator.obfuscate({
 
     callback: function(data) {
         print(data.stats)
-
-        console.log('\x1b[36m' + `Obfuscated script in ${data.stats.time} ms!` + '\x1b[0m')
         fs.writeFileSync("./Out.lua", data.script)
     },
     
@@ -18,7 +16,7 @@ obfuscator.obfuscate({
         mutations: {
             enabled: true,
             max: {
-                enabled: true,
+                enabled: false,
                 amount: 50,
             },
         },

@@ -42,8 +42,8 @@ module.exports = function(data) {
             [${typeMapping[2]}] = _tonumber,
             [${typeMapping[3]}] = function(bit)
                 bit_idx = {
-                    false,
-                    true,
+                    not _true,
+                    _true,
                 }
                 return bit_idx[bit + 1]
             end,
@@ -96,7 +96,7 @@ module.exports = function(data) {
 
             local isNegative = false
             if ((Type == ${typeMapping[2]} or Type == ${typeMapping[4]}) and silent_gBit() == 0) and (Length ~= 1) then
-                isNegative = true
+                isNegative = _true
             end
 
             if Type == ${typeMapping[4]} then -- decimal number

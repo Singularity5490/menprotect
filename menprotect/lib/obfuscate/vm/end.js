@@ -38,8 +38,7 @@ module.exports = function() {
 
 	___index = vm_strings[6]
 	___newindex = vm_strings[7]
-
-	CheckMinification()
+	
 	Wrap(buffer)()
 
 	end

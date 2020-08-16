@@ -4,6 +4,50 @@ const functions = require('../funcs')
 const funcs = new functions()
 const vmfiles = '../obfuscate/vm/'
 
+function collect_numerics(AST) {
+    let used = {}
+    function shuffle() {
+        let op = Math.floor(Math.random() * 255)
+        if (!used[op]) {
+            used[op] = op
+            return op
+        }
+        return shuffle()
+    }
+
+    let index = {}
+    function scan(chunk, callback) {
+        Object.keys(chunk).forEach(function(v1) {
+            let __chunk = chunk[v1]
+
+            if (__chunk && typeof(__chunk) == 'object') { // Is chunk is valid
+                let type = __chunk.type
+
+                if (type == 'NumericLiteral' && __chunk.value) { // Macro being called
+                    callback(__chunk)
+                }
+
+                scan(__chunk, callback) // Scan chunk descendants
+            }
+        })
+    }
+
+    let numerics = `local numerics = {`
+    scan(AST, function(chunk) {
+        if (!index[chunk.value]) {
+            let mask = shuffle()
+            
+            index[chunk.value] = mask
+            numerics += `[${mask}]=${chunk.value},`
+            chunk.raw = `numerics[${mask}]`
+            chunk.value = null
+        }
+    })
+    numerics += `}`
+
+    return `${numerics} `
+}
+
 module.exports = function(data, keys) {
     let proto = data.proto
     let instructions = data.instructions
@@ -92,9 +136,14 @@ module.exports = function(data, keys) {
 
     let secure_byte = funcs._2C(funcs.encrypt(bytecode, keys.byte))
 
+    let AST = funcs.parse(build)
+    let numeric_index = collect_numerics(AST)
+
+    let vm = `return(function()${funcs.minify(numeric_index + funcs.minify(AST))};end)()("${secure_byte}");`
+
     return `--[[
-    This script was obfuscated using menprotect v1.0.0 by elerium:tm:
+    This script was obfuscated using menprotect v1.0.0
 --]]
-return(function()${funcs.minify(build)};end)()("${secure_byte}");
+${vm}
 `
 }
