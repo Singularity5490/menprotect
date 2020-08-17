@@ -1,3 +1,6 @@
+// Credits to rerubi, this is just a nodejs fork
+// https://github.com/Rerumu/Rerubi
+
 const print = console.log
 const ldexp = require("math-float64-ldexp");
 
